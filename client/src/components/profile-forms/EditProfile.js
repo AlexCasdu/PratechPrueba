@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-const CreateProfile = ({
+const EditProfile = ({
   createProfile,
   getCurrentProfile,
   profile: { profile, loading },
@@ -17,17 +17,26 @@ const CreateProfile = ({
     birthdate: '',
     hobbies: 'hola'
   });
+
+  useEffect(() => {
+    getCurrentProfile();
+
+    setFormData({
+      idtype: loading || !profile.idtype ? '' : profile.idtype,
+      idnumber: loading || !profile.idnumber ? '' : profile.idnumber,
+      sex: loading || !profile.sex ? '' : profile.sex,
+      birthdate: loading || !profile.birthdate ? '' : profile.birthdate,
+      hobbies: loading || !profile.hobbies ? '' : profile.hobbies
+    });
+  }, [loading, getCurrentProfile]);
+
   const { idtype, idnumber, sex, birthdate, hobbies } = formData;
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = e => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
-  useEffect(() => {
-    getCurrentProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getCurrentProfile]);
 
   return loading && profile === null ? (
     <Redirect to='/dashboard' />
@@ -71,6 +80,7 @@ const CreateProfile = ({
                 type='radio'
                 name='sex'
                 value='Masculino'
+                checked={sex == 'Masculino'}
                 onChange={e => onChange(e)}
                 className='form-check-input'
               />{' '}
@@ -83,6 +93,7 @@ const CreateProfile = ({
                 type='radio'
                 name='sex'
                 value='Femenino'
+                checked={sex == 'Femenino'}
                 onChange={e => onChange(e)}
                 className='form-check-input'
               />{' '}
@@ -107,7 +118,7 @@ const CreateProfile = ({
     </Fragment>
   );
 };
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
@@ -120,4 +131,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { createProfile, getCurrentProfile }
-)(withRouter(CreateProfile));
+)(withRouter(EditProfile));

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
+import DashboardActions from './DashboardActions';
 import { getCurrentProfile } from '../../actions/profile';
 
 const Dashboard = ({
@@ -23,9 +24,8 @@ const Dashboard = ({
       </p>
       {profile !== null ? (
         <Fragment>
-          {/*<DashboardActions />
-          <Education education={profile.education} />
-
+          <DashboardActions />
+          {/*<Education education={profile.education} />
           <div className='my-2'>
             <button className='btn btn-danger' onClick={() => deleteAccount()}>
               <i className='fas fa-user-minus' /> Eliminar cuenta

@@ -44,7 +44,7 @@ router.post(
       check('idnumber', 'El número de identificación es requerrido')
         .not()
         .isEmpty(),
-      check('gender', 'El genero es requerrido')
+      check('sex', 'El sexo es requerrido')
         .not()
         .isEmpty(),
       check('birthdate', 'La fecha de nacimiento es requerrida')
@@ -61,14 +61,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { idtype, idnumber, gender, birthdate, hobbies } = req.body;
+    const { idtype, idnumber, sex, birthdate, hobbies } = req.body;
 
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
     if (idtype) profileFields.idtype = idtype;
     if (idnumber) profileFields.idnumber = idnumber;
-    if (gender) profileFields.gender = gender;
+    if (sex) profileFields.sex = sex;
     if (birthdate) profileFields.birthdate = birthdate;
     if (hobbies) profileFields.hobbies = hobbies;
 
