@@ -3,6 +3,9 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
+import Checkbox from '../../utils/Checkbox';
+
+const HOBBIES = ['Comer', 'Futbol', 'Pintar', 'Programación'];
 
 const CreateProfile = ({
   createProfile,
@@ -15,9 +18,11 @@ const CreateProfile = ({
     idnumber: '',
     sex: '',
     birthdate: '',
-    hobbies: 'hola'
+    hobbies: HOBBIES.reduce((hobbies, hobbie) => ({
+      [hobbie]: false
+    }))
   });
-  const { idtype, idnumber, sex, birthdate, hobbies } = formData;
+  const { idtype, idnumber, birthdate } = formData;
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = e => {
@@ -28,6 +33,28 @@ const CreateProfile = ({
     getCurrentProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentProfile]);
+
+  const handleCheckboxChange = changeEvent => {
+    const { name } = changeEvent.target;
+    setFormData(prevState => ({
+      hobbies: {
+        ...prevState.hobbies,
+        [name]: !prevState.hobbies[name]
+      }
+    }));
+    console.log(formData.hobbies);
+  };
+
+  const createCheckbox = hobbie => (
+    <Checkbox
+      label={hobbie}
+      isSelected={formData.hobbies[hobbie]}
+      onCheckboxChange={handleCheckboxChange}
+      key={hobbie}
+    />
+  );
+
+  const createCheckboxes = () => HOBBIES.map(createCheckbox);
 
   return loading && profile === null ? (
     <Redirect to='/dashboard' />
@@ -98,6 +125,11 @@ const CreateProfile = ({
             value={birthdate}
             onChange={e => onChange(e)}
           />
+        </div>
+        <div className='form-group'>
+          <h4>Hobbies:</h4>
+          {createCheckboxes()}
+          <small className='form-text'>Seleccione uno o varios</small>
         </div>
         <input type='submit' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/dashboard'>

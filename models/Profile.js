@@ -22,7 +22,7 @@ const ProfileSchema = new mongoose.Schema({
     required: true
   },
   hobbies: {
-    type: [String],
+    type: Object,
     required: true
   },
   education: [
