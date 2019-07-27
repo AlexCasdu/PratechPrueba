@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
-const User = requiere('../../models/User');
 const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
+const User = require('../../models/User');
 
 // @route    GET api/auth
 // @desc     Test route
@@ -27,7 +27,7 @@ router.post(
   '/',
   [
     check('email', 'Por favor ingrese un email valido').isEmail(),
-    check('password', 'La contraseña es requerrida').exists()
+    check('password', 'La contraseña es obligatoria').exists()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,18 +39,19 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
-      if (user) {
+
+      if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'email o contraseña incorrectas' }] });
+          .json({ errors: [{ msg: 'email o contraseña incorrectos' }] });
       }
 
-      const inMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'email o contraseña incorrectas' }] });
+          .json({ errors: [{ msg: 'email o contraseña incorrectos' }] });
       }
 
       const payload = {
