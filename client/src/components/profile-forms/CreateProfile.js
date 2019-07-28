@@ -3,9 +3,9 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-import Checkbox from '../../utils/Checkbox';
+//import Checkbox from '../../utils/Checkbox';
 
-const HOBBIES = ['Comer', 'Futbol', 'Pintar', 'Programación'];
+//const HOBBIES = ['Comer', 'Futbol', 'Pintar', 'Programación'];
 
 const CreateProfile = ({
   createProfile,
@@ -18,9 +18,7 @@ const CreateProfile = ({
     idnumber: '',
     sex: '',
     birthdate: '',
-    hobbies: HOBBIES.reduce((hobbies, hobbie) => ({
-      [hobbie]: false
-    }))
+    hobbies: 'hola'
   });
   const { idtype, idnumber, birthdate } = formData;
   const onChange = e =>
@@ -34,7 +32,7 @@ const CreateProfile = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentProfile]);
 
-  const handleCheckboxChange = changeEvent => {
+  /*const handleCheckboxChange = changeEvent => {
     const { name } = changeEvent.target;
     setFormData(prevState => ({
       hobbies: {
@@ -54,7 +52,7 @@ const CreateProfile = ({
     />
   );
 
-  const createCheckboxes = () => HOBBIES.map(createCheckbox);
+  const createCheckboxes = () => HOBBIES.map(createCheckbox);*/
 
   return loading && profile === null ? (
     <Redirect to='/dashboard' />
@@ -126,11 +124,11 @@ const CreateProfile = ({
             onChange={e => onChange(e)}
           />
         </div>
-        <div className='form-group'>
+        {/*<div className='form-group'>
           <h4>Hobbies:</h4>
           {createCheckboxes()}
           <small className='form-text'>Seleccione uno o varios</small>
-        </div>
+        </div>*/}
         <input type='submit' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/dashboard'>
           Volver

@@ -3,6 +3,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
+import moment from 'moment';
 
 const EditProfile = ({
   createProfile,
@@ -30,7 +31,7 @@ const EditProfile = ({
     });
   }, [loading, getCurrentProfile]);
 
-  const { idtype, idnumber, sex, birthdate, hobbies } = formData;
+  const { idtype, idnumber, sex, birthdate } = formData;
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = e => {
@@ -80,7 +81,7 @@ const EditProfile = ({
                 type='radio'
                 name='sex'
                 value='Masculino'
-                checked={sex == 'Masculino'}
+                checked={sex === 'Masculino'}
                 onChange={e => onChange(e)}
                 className='form-check-input'
               />{' '}
@@ -93,7 +94,7 @@ const EditProfile = ({
                 type='radio'
                 name='sex'
                 value='Femenino'
-                checked={sex == 'Femenino'}
+                checked={sex === 'Femenino'}
                 onChange={e => onChange(e)}
                 className='form-check-input'
               />{' '}
@@ -106,7 +107,9 @@ const EditProfile = ({
           <input
             type='date'
             name='birthdate'
-            value={birthdate}
+            value={moment(birthdate)
+              .add(1, 'days')
+              .format('YYYY-MM-DD')}
             onChange={e => onChange(e)}
           />
         </div>
