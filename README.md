@@ -2,7 +2,7 @@
 Prueba técnica Pratech / Desarrollo (REACT)
 
 Desarrollo de la prueba técnica para participar en el proceso de selección de desarrolladores, para ello se utiliza el MERN Stack y se implementa redux.
-* No se adjuntan scripts de la BD pues esta alojada en la nube (MongoDb Atlas).
+* No se adjuntan scripts de la BD pues esta alojada en la nube (MongoDb Atlas) y los modelos se crean desde el Backend.
 
 ## Ejecutando la aplicación
 ```
